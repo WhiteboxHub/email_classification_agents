@@ -6,7 +6,7 @@ def send_email(to_email : str,email_data : str,subject : Optional[str] = "email 
     """Send an email using SMTP."""
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    sender_email = "junaidfaizan024@gmail.com"
+    sender_email = "sample024@gmail.com"
     sender_password = "kaymeqsbvbpjtwjw" 
 
     msg = MIMEText(email_data)
@@ -25,4 +25,4 @@ def send_email(to_email : str,email_data : str,subject : Optional[str] = "email 
         print(f"Error sending email: {e}")
 
 
-# send_email('khajaaka@gmail.com',"this is a test case test case.................")
+# send_email('test@gmail.com',"this is a test case test case.................")

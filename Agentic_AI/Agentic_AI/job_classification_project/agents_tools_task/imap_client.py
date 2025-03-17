@@ -87,7 +87,7 @@ print("executed")
 if __name__ == "__main__":
     emails = fetch_emails()
     for email in emails:
-        print(f"📩 Subject: {email['subject']}")
-        print(f"📝 Body: {email['body'][:100]}...")  
-        print(f"👥 From: {email['sender']}")
+        print(f"Subject: {email['subject']}")
+        print(f"Body: {email['body'][:100]}...")  
+        print(f"From: {email['sender']}")
         print("-" * 40)
