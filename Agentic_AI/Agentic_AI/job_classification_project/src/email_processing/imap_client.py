@@ -61,66 +61,11 @@ def fetch_emails():
                         body = msg.get_payload(decode=True).decode()
                         print(f"Body:\n{body[:300]}...")
 
-        # Logout and close connection
         mail.logout()
     
     except Exception as e:
         print(f"Error: {e}")
 
-# Run the function
 fetch_emails()
 
 
-import imaplib
-import email
-import csv
-
-# IMAP Configuration
-IMAP_SERVER = "imap.gmail.com"
-EMAIL_ID = "junaidfaizan024@gmail.com"
-PASSWORD = "kaymeqsbvbpjtwjw"
-
-# Connect to Gmail IMAP Server
-mail = imaplib.IMAP4_SSL(IMAP_SERVER)
-mail.login(EMAIL_ID, PASSWORD)
-mail.select("inbox")
-
-# Fetch latest 5 emails
-status, messages = mail.search(None, "ALL")
-email_ids = messages[0].split()[-10:]  # Get last 5 emails
-
-emails = []  # Store email data
-
-for email_id in email_ids:
-    status, msg_data = mail.fetch(email_id, "(RFC822)")
-    
-    for response_part in msg_data:
-        if isinstance(response_part, tuple):
-            msg = email.message_from_bytes(response_part[1])
-            sender = msg["From"]
-            subject = msg["Subject"]
-
-            # Extract email body
-            if msg.is_multipart():
-                body = ""
-                for part in msg.walk():
-                    if part.get_content_type() == "text/plain":
-                        body = part.get_payload(decode=True).decode("utf-8", errors="ignore")
-                        break
-            else:
-                body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
-
-            emails.append({"sender": sender, "subject": subject, "body": body[:300]})  # Limit body preview
-        
-# Save to CSV File
-with open("emails.csv", "w", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
-    writer.writerow(["Sender", "Subject", "Body"])  # Header row
-
-    for email_data in emails:
-        writer.writerow([email_data["sender"], email_data["subject"], email_data["body"]])
-
-print("Emails saved to emails.csv")
-
-# Close the connection
-mail.logout()
